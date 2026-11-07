@@ -8,15 +8,17 @@ function toast(m){const t=$('#ts');t.textContent=m;t.style.display='block';setTi
 function chrome(d,page){
  const s=d.site;R.style.setProperty('--ac',s.accent);R.style.setProperty('--r',s.radius+'px');R.style.setProperty('--hf',`'${s.font}'`);
  document.title=s.name+' | '+page;
+ if(s.logo){let i=$('link[rel=icon]');if(!i){i=document.createElement('link');i.rel='icon';document.head.appendChild(i)}i.href=s.logo}
  const cur=location.pathname.split('/').pop()||'index.html';
  const L=[['index.html','الرئيسية'],...d.menus.map(m=>[m.url,m.title]),['team.html','الإشراف']];
- $('#hd').innerHTML=`<div class="w bar"><a class="logo" href="index.html"><b>${esc(s.name[0])}</b>${esc(s.name)}</a><nav>${L.map(l=>`<a href="${esc(l[0])}" class="${l[0]==cur?'on':''}">${esc(l[1])}</a>`).join('')}</nav><div class="tools"><button data-f="-10" aria-label="تصغير الخط">أ-</button><button data-f="10" aria-label="تكبير الخط">أ+</button><button id="tg" aria-label="تبديل الوضع الداكن">◐</button></div></div>`;
+ $('#hd').innerHTML=`<div class="w bar"><a class="logo" href="index.html">${s.logo?`<img class="lg" src="${esc(s.logo)}" alt="${esc(s.name)}">${s.showName?esc(s.name):''}`:`<b>${esc(s.name[0])}</b>${esc(s.name)}`}</a><nav>${L.map(l=>`<a href="${esc(l[0])}" class="${l[0]==cur?'on':''}">${esc(l[1])}</a>`).join('')}</nav><div class="tools"><button data-f="-10" aria-label="تصغير الخط">أ-</button><button data-f="10" aria-label="تكبير الخط">أ+</button><button id="tg" aria-label="تبديل الوضع الداكن">◐</button></div></div>`;
  $('#ft').innerHTML=`<div class="w">${esc(s.name)} — ${esc(s.tagline)}</div>`;
  $('#hd').onclick=e=>{const b=e.target.closest('button');if(!b)return;
   if(b.dataset.f){LS.fs=Math.min(160,Math.max(80,+(LS.fs||100)+ +b.dataset.f));R.style.fontSize=LS.fs+'%'}
   if(b.id=='tg'){LS.th=R.dataset.theme=='dark'?'light':'dark';R.dataset.theme=LS.th}}
 }
-async function boot(p){const d=await load();chrome(d,{home:d.site.tagline,team:'الإشراف',admin:'لوحة التحكم'}[p]);({home,team,admin})[p](d)}
+async function fresh(){try{if(!LS.gt||!LS.go||!LS.gr)return null;const r=await fetch(`https://api.github.com/repos/${LS.go}/${LS.gr}/contents/data.json?ref=${LS.gb||'main'}`,{headers:{Authorization:'Bearer '+LS.gt,Accept:'application/vnd.github.raw+json'}});return r.ok?await r.json():null}catch(e){return null}}
+async function boot(p){const d=(p=='admin'&&!LS.getItem('satr_data')&&await fresh())||await load();chrome(d,{home:d.site.tagline,team:'الإشراف',admin:'لوحة التحكم'}[p]);({home,team,admin})[p](d)}
 const hue=i=>`hsl(${(i*47)%360} 35% 38%)`;
 function home(d){
  let q='',cat='',typ='';
@@ -41,7 +43,7 @@ function admin(d){
  const inp=(id,l,v='',t='text')=>`<label>${l}<input id="${id}" type="${t}" value="${esc(v)}"></label>`;
  const del=(k,i)=>`<button class="btn g" data-del="${k}:${i}">حذف</button>`;
  const P={
-  look:()=>`<div class="pn"><h2>شكل الموقع</h2><div class="fm">${inp('n','اسم الموقع',d.site.name)}${inp('tg','الوصف المختصر',d.site.tagline)}${inp('ac','اللون الأساسي',d.site.accent,'color')}<label>استدارة الزوايا<input id="rd" type="range" min="0" max="24" value="${d.site.radius}"></label><label>خط العناوين<select id="fn">${['Amiri','Cairo'].map(f=>`<option ${f==d.site.font?'selected':''}>${f}</option>`).join('')}</select></label><label class="f">نص صفحة الإشراف<textarea id="ab" rows="3">${esc(d.about)}</textarea></label></div><p><button class="btn" id="sv">حفظ المظهر</button></p></div>`,
+  look:()=>`<div class="pn"><h2>شكل الموقع</h2><div class="fm">${inp('n','اسم الموقع',d.site.name)}${inp('tg','الوصف المختصر',d.site.tagline)}${inp('ac','اللون الأساسي',d.site.accent,'color')}<label>استدارة الزوايا<input id="rd" type="range" min="0" max="24" value="${d.site.radius}"></label><label>خط العناوين<select id="fn">${['Amiri','Cairo'].map(f=>`<option ${f==d.site.font?'selected':''}>${f}</option>`).join('')}</select></label><label class="f">شعار الموقع (صورة تظهر بدل الاسم)<input id="lf" type="file" accept="image/*"></label>${d.site.logo?`<div class="f"><img class="lg" src="${esc(d.site.logo)}" alt=""> <button class="btn g" id="rl">حذف الشعار</button></div>`:''}<label><span><input id="sn" type="checkbox" ${d.site.showName?'checked':''}> إظهار اسم الموقع بجانب الشعار</span></label><label class="f">نص صفحة الإشراف<textarea id="ab" rows="3">${esc(d.about)}</textarea></label></div><p><button class="btn" id="sv">حفظ المظهر</button></p></div>`,
   items:()=>{const i=d.items.find(x=>x.id==eid)||{type:'book',title:'',author:'',cat:d.cats[0]||'',year:'',cover:'',link:'',desc:''};
    return `<div class="pn"><h2>${eid?'تعديل':'إضافة'} كتاب أو بحث</h2><div class="fm"><label>النوع<select id="ty"><option value="book" ${i.type=='book'?'selected':''}>كتاب</option><option value="research" ${i.type=='research'?'selected':''}>بحث</option></select></label>${inp('ti','العنوان',i.title)}${inp('au','المؤلف أو الباحث',i.author)}<label>القائمة<select id="ca">${d.cats.map(c=>`<option ${c==i.cat?'selected':''}>${esc(c)}</option>`).join('')}</select></label>${inp('yr','السنة',i.year)}${inp('cv','رابط صورة الغلاف',i.cover)}${inp('lk','رابط الملف',i.link)}<label class="f">الوصف<textarea id="ds" rows="3">${esc(i.desc)}</textarea></label></div><p><button class="btn" id="ad">${eid?'حفظ التعديل':'إضافة'}</button></p></div><div class="pn"><h2>المحتوى الحالي (${d.items.length})</h2>${d.items.map(x=>`<div class="rw"><span>${esc(x.title)} <small class="mut">${x.type=='book'?'كتاب':'بحث'}</small></span><span><button class="btn g" data-ed="${x.id}">تعديل</button>${del('items',x.id)}</span></div>`).join('')}</div>`},
   menus:()=>`<div class="pn"><h2>روابط القائمة العلوية</h2><div class="fm">${inp('mt','العنوان')}${inp('mu','الرابط (مثل page.html)')}</div><p><button class="btn" id="am">إضافة رابط</button></p>${d.menus.map((m,k)=>`<div class="rw"><span>${esc(m.title)} <small class="mut">${esc(m.url)}</small></span>${del('menus',k)}</div>`).join('')}</div><div class="pn"><h2>قوائم التصنيف</h2><div class="fm">${inp('ct','اسم القائمة الجديدة')}</div><p><button class="btn" id="ac2">إضافة قائمة</button></p>${d.cats.map((c,k)=>`<div class="rw"><span>${esc(c)}</span>${del('cats',k)}</div>`).join('')}</div>`,
@@ -49,13 +51,16 @@ function admin(d){
   pub:()=>`<div class="pn"><h2>النشر على GitHub</h2><p class="mut">التعديلات تُحفظ الآن في متصفحك فقط. لتظهر للجميع انشرها في المستودع. الرمز يبقى في هذا المتصفح ولا يُرسل لغير GitHub.</p><div class="fm">${inp('go','اسم الحساب',LS.go||'')}${inp('gr','اسم المستودع',LS.gr||'')}${inp('gb','الفرع',LS.gb||'main')}${inp('gt','رمز الوصول (Fine-grained token بصلاحية Contents)',LS.gt||'','password')}</div><p><button class="btn" id="pb">نشر الآن</button></p></div><div class="pn"><h2>نسخة احتياطية</h2><p><button class="btn g" id="dl">تنزيل data.json</button> <label class="btn g">استيراد data.json<input id="im" type="file" accept=".json" hidden></label> <button class="btn g" id="rs">إلغاء التعديلات المحلية</button></p></div>`};
  const draw=()=>{$('#app').innerHTML=`<div class="w ad"><aside>${Object.entries(tabs).map(([k,v])=>`<button data-tab="${k}" class="${k==tab?'on':''}">${v}</button>`).join('')}</aside><section>${P[tab]()}</section></div>`};
  const v=id=>$('#'+id).value.trim();
+ const applyLook=()=>{Object.assign(d.site,{name:v('n'),tagline:v('tg'),accent:v('ac'),radius:+v('rd'),font:v('fn'),showName:$('#sn').checked});d.about=v('ab')};
+ const setLogo=u=>{applyLook();d.site.logo=u;save('تم رفع الشعار');draw()};
  draw();
  $('#app').addEventListener('input',e=>{if(tab=='look'&&e.target.id=='ac'||e.target.id=='rd'){R.style.setProperty('--ac',v('ac'));R.style.setProperty('--r',v('rd')+'px')}});
  $('#app').onclick=async e=>{const b=e.target.closest('button');if(!b)return;const id=b.id,D=b.dataset;
   if(D.tab){tab=D.tab;eid=null}
   else if(D.ed){eid=+D.ed;tab='items'}
   else if(D.del){const[k,i]=D.del.split(':');if(k=='items')d.items=d.items.filter(x=>x.id!=i);else d[k].splice(+i,1);save('تم الحذف')}
-  else if(id=='sv'){Object.assign(d.site,{name:v('n'),tagline:v('tg'),accent:v('ac'),radius:+v('rd'),font:v('fn')});d.about=v('ab');save()}
+  else if(id=='sv'){applyLook();save()}
+  else if(id=='rl'){applyLook();delete d.site.logo;save('تم حذف الشعار')}
   else if(id=='ad'){if(!v('ti'))return toast('اكتب العنوان أولًا');const o={type:v('ty'),title:v('ti'),author:v('au'),cat:v('ca'),year:v('yr'),cover:v('cv'),link:v('lk'),desc:v('ds')};
    if(eid)Object.assign(d.items.find(x=>x.id==eid),o);else d.items.unshift({id:Date.now(),...o});eid=null;save('تم الحفظ')}
   else if(id=='am'){if(v('mt')&&v('mu')){d.menus.push({title:v('mt'),url:v('mu')});save()}else return toast('أدخل العنوان والرابط')}
@@ -66,11 +71,12 @@ function admin(d){
   else if(id=='rs'){LS.removeItem('satr_data');return location.reload()}
   else if(id=='pb'){['go','gr','gb','gt'].forEach(k=>LS[k]=v(k));await pub(d);return}
   draw()};
- $('#app').addEventListener('change',e=>{if(e.target.id=='im'){const f=e.target.files[0];f.text().then(t=>{Object.assign(d,JSON.parse(t));save('تم الاستيراد');draw()})}});
+ $('#app').addEventListener('change',e=>{if(e.target.id=='lf'){const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{if(f.type=='image/svg+xml')return setLogo(rd.result);const im=new Image();im.onload=()=>{const h=Math.min(120,im.height),w=Math.round(im.width*h/im.height),c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);setLogo(c.toDataURL('image/png'))};im.src=rd.result};rd.readAsDataURL(f);return}
+ if(e.target.id=='im'){const f=e.target.files[0];f.text().then(t=>{Object.assign(d,JSON.parse(t));save('تم الاستيراد');draw()})}});
 }
 async function pub(d){
  const o=LS.go,r=LS.gr,b=LS.gb||'main',u=`https://api.github.com/repos/${o}/${r}/contents/data.json`,h={Authorization:'Bearer '+LS.gt,Accept:'application/vnd.github+json'};
  try{const c=await fetch(u+'?ref='+b,{headers:h});const sha=c.ok?(await c.json()).sha:undefined;
   const x=await fetch(u,{method:'PUT',headers:h,body:JSON.stringify({message:'تحديث محتوى سطر',branch:b,sha,content:btoa(unescape(encodeURIComponent(JSON.stringify(d,null,1))))})});
-  toast(x.ok?'تم النشر. يظهر للزوار بعد دقيقة تقريبًا':'فشل النشر. راجع الرمز واسم المستودع')}catch(e){toast('تعذر الاتصال بـ GitHub')}
+  if(x.ok){LS.removeItem('satr_data');toast('تم النشر. يظهر على كل الأجهزة بعد دقيقة تقريبًا')}else{const j=await x.json().catch(()=>({}));toast('فشل النشر: '+x.status+' '+(j.message||''))}}catch(e){toast('تعذر الاتصال بـ GitHub')}
 }
