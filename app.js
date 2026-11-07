@@ -88,8 +88,8 @@ const pub=d=>Q=Q.then(()=>pub1(d));
 async function pub1(d){
  if(!LS.gt)return toast('اربط الحساب أولًا من تبويب النشر');
  const c=cfg(),u=`https://api.github.com/repos/${c.o}/${c.r}/contents/data.json`,h={Authorization:'Bearer '+LS.gt,Accept:'application/vnd.github+json'};
- try{const g=await fetch(u,{headers:h});const sha=g.ok?(await g.json()).sha:undefined;
+ try{let sha;const t='?t='+Date.now(),o={headers:h,cache:'no-store'};const g=await fetch(u+t,o);if(g.ok)sha=(await g.json()).sha;else{const l=await fetch(u.replace('/data.json','')+t,o);if(l.ok){const a=await l.json();sha=(Array.isArray(a)?a.find(f=>f.name=='data.json'):null)?.sha}}
   const x=await fetch(u,{method:'PUT',headers:h,body:JSON.stringify({message:'تحديث محتوى سطر',sha,content:btoa(unescape(encodeURIComponent(JSON.stringify(d,null,1))))})});
-  if(x.ok){LS.removeItem('satr_data');const b=$('#pb2');if(b)b.closest('.pn').remove();toast('تم النشر. يظهر على كل الأجهزة بعد دقيقة تقريبًا')}else{const j=await x.json().catch(()=>({}));toast('فشل النشر: '+x.status+' '+(j.message||''))}
+  if(x.ok){LS.removeItem('satr_data');const b=$('#pb2');if(b)b.closest('.pn').remove();toast('تم النشر. يظهر على كل الأجهزة بعد دقيقة تقريبًا')}else{const j=await x.json().catch(()=>({}));toast('فشل النشر: '+x.status+' '+(j.message||'')+(sha?'':' (قراءة الملف الحالي: '+g.status+')'))}
  }catch(e){toast('تعذر الاتصال بـ GitHub')}
 }
