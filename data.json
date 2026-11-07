@@ -23,6 +23,17 @@
  ],
  "items": [
   {
+   "id": 1794019883116,
+   "type": "research",
+   "title": "الحوسبة السحابية ومستقبل مؤسسات التعليم العالي",
+   "author": "بكاري مختار",
+   "cat": "أدب",
+   "year": "2024",
+   "cover": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAGAghPCIqbxbTd144KjlQutkS-HRVeM6HVGlw6wbEfiLq3CVbN00bnpcy&s=10",
+   "link": "https://drive.google.com/file/d/1HN4YBkraThXz2UofVzcE4p5wsIHhn75Y/view?usp=sharing",
+   "desc": "الحوسبة السحابية ومستقبل مؤسسات التعليم العالي"
+  },
+  {
    "id": 1794018457121,
    "type": "research",
    "title": "التحديات التي تواجه الأمن السيبراني",
