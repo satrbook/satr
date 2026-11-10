@@ -19,6 +19,17 @@
  ],
  "items": [
   {
+   "id": 1794271780952,
+   "type": "research",
+   "title": "تطبيقات الحوسبة السحابية في دعم مهارات البحث العلمي",
+   "author": "عاليه الهيف.",
+   "cat": "تكنولوجيا",
+   "year": "2024",
+   "cover": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-k-OaKYNzdLZPgwMnZyhc0F_b2Lm_PmFGLRmU4uUic_qKPjXO7_siNfLa&s=10",
+   "link": "https://drive.google.com/file/d/1HDLzUWq86_eJYhVWW_utQa9HYE4OYN6X/view?usp=sharing",
+   "desc": "تطبيقات الحوسبة السحابية في دعم مهارات البحث العلمي وحفظ واسترجاع المعلومات لدى طالبات قسم علم المكتبات والمعلومات"
+  },
+  {
    "id": 1794271493396,
    "type": "research",
    "title": "الحوسبة السحابية: مفهومها واستخداماتها",
