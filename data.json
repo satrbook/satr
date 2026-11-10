@@ -19,6 +19,17 @@
  ],
  "items": [
   {
+   "id": 1794272183498,
+   "type": "research",
+   "title": "توظيف إنترنت الأشياء في التعليم: المبررات، المجالات، التحديات",
+   "author": "جمال علي الدهشان",
+   "cat": "تكنولوجيا",
+   "year": "2019",
+   "cover": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMd55dxWNi13H0BupMi3k7PxP_IdeHpUjhyu2Qn7VjmA&s=10",
+   "link": "https://drive.google.com/file/d/1sBY3UMZ1PSH_yV6Ta_VJnq6g-VQ4DpAm/view?usp=sharing",
+   "desc": "توظيف إنترنت الأشياء في التعليم: المبررات، المجالات، التحديات"
+  },
+  {
    "id": 1794271960226,
    "type": "research",
    "title": "Towards Intelligent Control Architectures",
