@@ -19,6 +19,17 @@
  ],
  "items": [
   {
+   "id": 1794271960226,
+   "type": "book",
+   "title": "Towards Intelligent Control Architectures",
+   "author": "Hamzah M. Marhoon, Hussein Al-Rammahi, Noorulden Basil, Nidal Qasem, Benmessaoud Mohammed Tarik.",
+   "cat": "أدب",
+   "year": "2026",
+   "cover": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhvehykxS3bBLcuRlaC4NXXGsQVf0M0aU04XPlJxOL4S1RAe4T8K3hAqQ&s=10",
+   "link": "https://drive.google.com/file/d/1mI5DKWqmTQV1QPmYgZsQS2IV1v5ile3m/view?usp=sharing",
+   "desc": "Towards Intelligent Control Architectures: A Systematic Review of Internet of Things Applications in Control Systems"
+  },
+  {
    "id": 1794271780952,
    "type": "research",
    "title": "تطبيقات الحوسبة السحابية في دعم مهارات البحث العلمي",
