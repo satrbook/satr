@@ -19,6 +19,17 @@
  ],
  "items": [
   {
+   "id": 1794271206967,
+   "type": "research",
+   "title": "A Systematic Survey of Blockchain",
+   "author": "المؤلفون: Anichur Rahman, Dipanjali Kundu, Tanoy Debnath, Muaz Rahman, Md. Jahidul Islam وآخرون.",
+   "cat": "تكنولوجيا",
+   "year": "2026",
+   "cover": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDgYGvcnkrarDGhsguS_bfz_ECceSEO_K2J8EUAkNbjZ_kX_X5lUzFvtU&s=10",
+   "link": "https://drive.google.com/file/d/1b1dWj1FQC4glYdIOewmkfLih-eJqa8Ro/view?usp=sharing",
+   "desc": "A Systematic Survey of Blockchain-Enabled Artificial Intelligence for Industrial IoT: Recent Advances, Integration Challenges, and Future Prospects"
+  },
+  {
    "id": 1794020392752,
    "type": "research",
    "title": "Deep Learning Models",
