@@ -2,7 +2,7 @@
  "site": {
   "name": "سطر",
   "tagline": "",
-  "accent": "#000000",
+  "accent": "#eb5e00",
   "radius": 21,
   "font": "Cairo",
   "showName": false,
